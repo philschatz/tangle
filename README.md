@@ -3,7 +3,7 @@
 
 ## Example
 
-To show something like the following content:
+Suppose you want something like the following content in a book or exercise:
 
 > When you eat _4_ cookies, you consume _200_ calories.
 
@@ -46,10 +46,10 @@ Since these values are dynamic, changing them can change the values used in a si
 
 Elements contain a few additional attributes:
 
+- `data-var="cookies"` : An optional variable name which can be referred to use the value. This is used as input to other `data-fn="..."`.
 - `data-fn="(c) => c * 50"` : The code that executes to generate the desired value. The text of the element updates to show the value
-- `data-var="cookies"` : An optional variable that stores the value. This is used as input to other `data-fn="..."`.
-- `data-init="(randomSeed) => 2"` : Function that defines the initial value. It always accepts `randomSeed` as the last argument.
 - `data-inputs="cookies"` : The arguments that will be passed in to the `data-fn`. These **must** be comma-separated and **must** match the number of expected arguments to `data-fn`.
+- `data-init="(randomSeed) => 2"` : Function that defines the initial value. It always accepts `randomSeed` as the last argument.
 
 
 ## About
