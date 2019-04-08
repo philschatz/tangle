@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+  <head>
+    <link rel="stylesheet" href="./style.css"/>
+    <style>
+      .example {
+        background-color: #eee;
+        border-radius: 5px;
+        border: 1px solid black;
+        margin: 1rem;
+        padding: 1rem;
+        padding-top: 0;
+      }
+    </style>
+  </head>
+  <body>
+
+    <h1>Dynamic Content Examples</h1>
+
+    <p>These 2 examples show how the content can be edited by the user <strong>and</strong> can be initialized with different values for different users (refresh the page).</p>
+    <p>You can click an input and then press up/down to adjust the number</p>
+
+    <h2>Why do this?</h2>
+    <ul>
+      <li>Content &amp; Exercises can be more dynamic rather than just static numbers on a page.</li>
+      <li>Content &amp; Exercises can be different for each student.</li>
+    </ul>
+
+    <div class="example">
+      <h2>Cookies</h2>
+      <p>When you eat 
+        <input 
+          type="number" 
+          data-var="cookies" 
+          min="2" 
+          max="99" 
+          data-init="(randomSeed) => Math.round(randomSeed * 10) + 2"/>
+        
+        cookies, you consume 
+        
+        <var data-fn="(cookies) => cookies * 50" data-inputs="cookies"></var> 
+        
+        calories.
+      </p>
+    </div>
+
+    <div class="example">
+      <h2>Proposition 21:  Vehicle License Fee for State Parks</h2>
+      
+      <h3>The way it is now:</h3>
+  
+      <input type="hidden" data-var="oldBudget" value="400000000"/>
+      <input type="hidden" data-var="registeredVehicleCount" value="28000000"/>
+      <input type="hidden" data-var="taxpayerCount" value="13657632"/>
+      <input type="hidden" data-var="oldVisitorCount" value="75000000"/>
+      <input type="hidden" data-var="percentOfAdmissionConvertedToRevenue" value="0.1"/>
+      <input type="hidden" data-var="percentInStateVistors" value="85"/>
+      <input type="hidden" data-var="percentVehicleOwners" value="95"/>
+      <input type="hidden" data-var="taxCount" data-fn="(isTaxPerVehicle, registeredVehicleCount, taxpayerCount) => isTaxPerVehicle ? registeredVehicleCount : taxpayerCount" data-inputs="isTaxPerVehicle,registeredVehicleCount,taxpayerCount"/>
+      <input type="hidden" data-var="taxCollected" data-fn="(tax, percentCompliance, taxCount) => tax * percentCompliance/100 * taxCount" data-inputs="tax,percentCompliance,taxCount"/>
+      <input type="hidden" data-var="deltaBudget" data-fn="(taxCollected, deltaRevenue) => taxCollected + deltaRevenue" data-inputs="taxCollected,deltaRevenue"/>
+      <input type="hidden" data-var="deltaRevenue" data-fn="(newRevenue,oldRevenue) => newRevenue - oldRevenue" data-inputs="newRevenue,oldRevenue"/>
+      <input type="hidden" data-var="oldRevenue" data-fn="(oldVisitorCount,oldAdmission,percentOfAdmissionConvertedToRevenue) => oldVisitorCount * oldAdmission * percentOfAdmissionConvertedToRevenue" data-inputs="oldVisitorCount,oldAdmission,percentOfAdmissionConvertedToRevenue"/>
+      <input type="hidden" data-var="newRevenue" data-fn="(newVisitorCount,averageAdmission,percentOfAdmissionConvertedToRevenue) => newVisitorCount * averageAdmission * percentOfAdmissionConvertedToRevenue" data-inputs="newVisitorCount,averageAdmission,percentOfAdmissionConvertedToRevenue"/>
+      <input type="hidden" data-var="deltaVisitorCount" data-fn="(newVisitorCount,oldVisitorCount) => newVisitorCount - oldVisitorCount" data-inputs="newVisitorCount,oldVisitorCount"/>
+      <input type="hidden" data-var="averageAdmission" data-fn="(oldAdmission,fractionOfVisitorsEligibleForNewAdmission,newAdmission) => oldAdmission + fractionOfVisitorsEligibleForNewAdmission * (newAdmission - oldAdmission)" data-inputs="oldAdmission,fractionOfVisitorsEligibleForNewAdmission,newAdmission"/>
+      <input type="hidden" data-var="fractionOfVisitorsEligibleForNewAdmission" data-fn="(newAdmissionAppliesToEveryone,percentInStateVistors,isTaxPerVehicle,percentVehicleOwners) => newAdmissionAppliesToEveryone ? 1 :
+      (percentInStateVistors/100 * (isTaxPerVehicle ? (percentVehicleOwners/100) : 1))" data-inputs="newAdmissionAppliesToEveryone,percentInStateVistors,isTaxPerVehicle,percentVehicleOwners"/>
+      <input type="hidden" data-var="newVisitorCount" data-fn="(oldVisitorCount,averageAdmission,oldAdmission) => oldVisitorCount * Math.max(0.2, 1 + 0.5*Math.atan(1 - averageAdmission/oldAdmission))" data-inputs="oldVisitorCount,averageAdmission,oldAdmission"/>
+      <input type="hidden" data-var="budget" data-fn="(oldBudget,deltaBudget) => oldBudget + deltaBudget" data-inputs="oldBudget,deltaBudget"/>
+
+      <p>California has <var data-var="parkCount">278</var> state parks, including state beaches and historic parks. 
+          The current $<var data-fn="(x) => Math.floor(x / 1000000)" data-inputs="oldBudget"></var> million budget is insufficient to maintain these parks, 
+          and <var data-var="oldClosedParkCount">150</var> parks will be shut down at least part-time.
+          Most parks charge $<var data-var="oldAdmission">12</var> per vehicle for admission.</p>
+
+      <h3>What Prop 21 would do:</h3>
+  
+      <p>Proposes to charge car owners an extra $18 on their annual registration bill, to go into the state park fund.  Cars that pay the charge would have free park admission.</p>
+
+      <h3>Analysis:</h3>
+
+      <p>Suppose that an extra
+          $<input type="number" data-var="tax" min="0" max="50" value="18"/> was charged to
+          <input type="number" data-var="percentCompliance" min="0" max="100" step="5" value="100"/>% of
+          <select data-var="isTaxPerVehicle">
+            <option value="true">vehicle registrations</option>
+            <option value="false">California taxpayers</option>
+          </select>.
+          Park admission would be $<input type="number" data-var="newAdmission" min="0" max="25" value="0"/> for
+          <select data-var="newAdmissionAppliesToEveryone">
+            <option value="false">those who paid the charge</option>
+            <option value="true">everyone</option>
+          </select>.
+      </p>
+      
+      <p>This would <var data-fn="(deltaBudget) => deltaBudget > 0 ? 'collect an extra' : 'lose'" data-inputs="deltaBudget"></var>
+          $<var data-fn="(x) => Math.abs(Math.floor(x / 1000000))" data-inputs="deltaBudget"></var> million
+          ($<var data-fn="(x) => Math.floor(x / 1000000)" data-inputs="taxCollected"></var> million from the tax,
+          <var data-fn="(x) => x > 0 ? 'plus' : 'minus'" data-inputs="deltaRevenue"></var>
+          $<var data-fn="(x) => Math.abs(Math.floor(x / 1000000))" data-inputs="deltaRevenue"></var> million
+          <var data-fn="(x) => x > 0 ? 'additional' : 'lost'" data-inputs="deltaRevenue"></var> revenue from admission)
+          for a total state park budget of $<var data-fn="(x) => Math.floor(x / 1000000)" data-inputs="budget"></var> million.
+      
+        <span data-inputs="budget,oldClosedParkCount,oldBudget" data-fn="(budget,oldClosedParkCount,oldBudget) => {
+          
+            const maintainanceBudget = 600e6;
+            const repairBudget = 750e6;
+            const maxBudget = 1000e6;
+            
+            if (budget &lt; maintainanceBudget) {
+                let closedParkCount = oldClosedParkCount * (maintainanceBudget - budget) / (maintainanceBudget - oldBudget);
+                closedParkCount = Math.round(closedParkCount);
+                return `This is not sufficient to maintain the parks, and ${closedParkCount} parks would be shut down at least part-time.`
+
+            } else if (budget &lt; repairBudget) {
+                return `This is sufficient to maintain the parks in their current state, but not fund a program to bring safety and cleanliness up to acceptable standards.`
+
+            } else if (budget &lt; maxBudget) {
+                const restorationTime = Math.round(10 - 9 * (budget - repairBudget) / (maxBudget - repairBudget));
+                return `This is sufficient to maintain the parks in their current state, plus fund a program to bring safety and cleanliness up to acceptable standards over the next ${restorationTime} years.`
+
+            } else {
+                const surplus = Math.floor((budget - maxBudget) / 1000000);
+                return `This is sufficient to maintain the parks and bring safety and cleanliness up to acceptable standards, leaving a $${surplus} million per year surplus.`
+            }
+        
+        
+        }"></span>
+        
+      </p>
+      
+      <p>Park attendance would
+          <var data-fn="(deltaVisitorCount) => deltaVisitorCount > 0 ? 'rise' : 'fall'" data-inputs="deltaVisitorCount"></var> by
+          <var data-fn="(deltaVisitorCount,oldVisitorCount) => Math.round(100 * Math.abs(deltaVisitorCount / oldVisitorCount))" data-inputs="deltaVisitorCount,oldVisitorCount"></var>%, to
+          <var data-fn="(x) => Math.round(x / 1000000)" data-inputs="newVisitorCount"></var> million visits each year.</p>
+    </div>
+
+    <script src="./src/tangle.js"></script>
+    <script>
+      const t = new Tangle()
+      t.init()
+      t.eval()
+      for (const v of t.variables.values()) {
+        console.log(`${v.name} = ${v.value}`)
+      }
+    </script>
+  </body>
+</html>

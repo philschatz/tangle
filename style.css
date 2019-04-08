@@ -1,0 +1,13 @@
+/* Make input boxes look like normal content */
+input[data-var]:not(:focus),
+select[data-var]:not(:focus) {
+  -webkit-appearance: none;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+  color: blue;
+  border-bottom: 1px dashed;
+}
