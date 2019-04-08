@@ -23,24 +23,23 @@
     <h2>Why do this?</h2>
     <ul>
       <li>Content &amp; Exercises can be more dynamic rather than just static numbers on a page.</li>
-      <li>Content &amp; Exercises can be different for each student.</li>
+      <li>Students can view different variants of Content &amp; Exercises.</li>
     </ul>
 
     <div class="example">
       <h2>Cookies</h2>
       <p>When you eat 
         <input 
-          type="number" 
           data-var="cookies" 
+          data-init="(randomSeed) => Math.round(randomSeed * 10) + 2"
+          type="number" 
           min="2" 
           max="99" 
-          data-init="(randomSeed) => Math.round(randomSeed * 10) + 2"/>
-        
+          />
+          
         cookies, you consume 
         
-        <var data-fn="(cookies) => cookies * 50" data-inputs="cookies"></var> 
-        
-        calories.
+        <var data-inputs="cookies" data-fn="(c) => c * 50"/> calories.          
       </p>
     </div>
 
@@ -56,21 +55,21 @@
       <input type="hidden" data-var="percentOfAdmissionConvertedToRevenue" value="0.1"/>
       <input type="hidden" data-var="percentInStateVistors" value="85"/>
       <input type="hidden" data-var="percentVehicleOwners" value="95"/>
-      <input type="hidden" data-var="taxCount" data-fn="(isTaxPerVehicle, registeredVehicleCount, taxpayerCount) => isTaxPerVehicle ? registeredVehicleCount : taxpayerCount" data-inputs="isTaxPerVehicle,registeredVehicleCount,taxpayerCount"/>
-      <input type="hidden" data-var="taxCollected" data-fn="(tax, percentCompliance, taxCount) => tax * percentCompliance/100 * taxCount" data-inputs="tax,percentCompliance,taxCount"/>
-      <input type="hidden" data-var="deltaBudget" data-fn="(taxCollected, deltaRevenue) => taxCollected + deltaRevenue" data-inputs="taxCollected,deltaRevenue"/>
-      <input type="hidden" data-var="deltaRevenue" data-fn="(newRevenue,oldRevenue) => newRevenue - oldRevenue" data-inputs="newRevenue,oldRevenue"/>
-      <input type="hidden" data-var="oldRevenue" data-fn="(oldVisitorCount,oldAdmission,percentOfAdmissionConvertedToRevenue) => oldVisitorCount * oldAdmission * percentOfAdmissionConvertedToRevenue" data-inputs="oldVisitorCount,oldAdmission,percentOfAdmissionConvertedToRevenue"/>
-      <input type="hidden" data-var="newRevenue" data-fn="(newVisitorCount,averageAdmission,percentOfAdmissionConvertedToRevenue) => newVisitorCount * averageAdmission * percentOfAdmissionConvertedToRevenue" data-inputs="newVisitorCount,averageAdmission,percentOfAdmissionConvertedToRevenue"/>
-      <input type="hidden" data-var="deltaVisitorCount" data-fn="(newVisitorCount,oldVisitorCount) => newVisitorCount - oldVisitorCount" data-inputs="newVisitorCount,oldVisitorCount"/>
-      <input type="hidden" data-var="averageAdmission" data-fn="(oldAdmission,fractionOfVisitorsEligibleForNewAdmission,newAdmission) => oldAdmission + fractionOfVisitorsEligibleForNewAdmission * (newAdmission - oldAdmission)" data-inputs="oldAdmission,fractionOfVisitorsEligibleForNewAdmission,newAdmission"/>
-      <input type="hidden" data-var="fractionOfVisitorsEligibleForNewAdmission" data-fn="(newAdmissionAppliesToEveryone,percentInStateVistors,isTaxPerVehicle,percentVehicleOwners) => newAdmissionAppliesToEveryone ? 1 :
-      (percentInStateVistors/100 * (isTaxPerVehicle ? (percentVehicleOwners/100) : 1))" data-inputs="newAdmissionAppliesToEveryone,percentInStateVistors,isTaxPerVehicle,percentVehicleOwners"/>
-      <input type="hidden" data-var="newVisitorCount" data-fn="(oldVisitorCount,averageAdmission,oldAdmission) => oldVisitorCount * Math.max(0.2, 1 + 0.5*Math.atan(1 - averageAdmission/oldAdmission))" data-inputs="oldVisitorCount,averageAdmission,oldAdmission"/>
-      <input type="hidden" data-var="budget" data-fn="(oldBudget,deltaBudget) => oldBudget + deltaBudget" data-inputs="oldBudget,deltaBudget"/>
+      <input type="hidden" data-var="taxCount" data-inputs="isTaxPerVehicle,registeredVehicleCount,taxpayerCount" data-fn="(isTaxPerVehicle, registeredVehicleCount, taxpayerCount) => isTaxPerVehicle ? registeredVehicleCount : taxpayerCount"/>
+      <input type="hidden" data-var="taxCollected" data-inputs="tax,percentCompliance,taxCount" data-fn="(tax, percentCompliance, taxCount) => tax * percentCompliance/100 * taxCount"/>
+      <input type="hidden" data-var="deltaBudget" data-inputs="taxCollected,deltaRevenue" data-fn="(taxCollected, deltaRevenue) => taxCollected + deltaRevenue"/>
+      <input type="hidden" data-var="deltaRevenue" data-inputs="newRevenue,oldRevenue" data-fn="(newRevenue,oldRevenue) => newRevenue - oldRevenue"/>
+      <input type="hidden" data-var="oldRevenue" data-inputs="oldVisitorCount,oldAdmission,percentOfAdmissionConvertedToRevenue" data-fn="(oldVisitorCount,oldAdmission,percentOfAdmissionConvertedToRevenue) => oldVisitorCount * oldAdmission * percentOfAdmissionConvertedToRevenue"/>
+      <input type="hidden" data-var="newRevenue" data-inputs="newVisitorCount,averageAdmission,percentOfAdmissionConvertedToRevenue" data-fn="(newVisitorCount,averageAdmission,percentOfAdmissionConvertedToRevenue) => newVisitorCount * averageAdmission * percentOfAdmissionConvertedToRevenue"/>
+      <input type="hidden" data-var="deltaVisitorCount" data-inputs="newVisitorCount,oldVisitorCount" data-fn="(newVisitorCount,oldVisitorCount) => newVisitorCount - oldVisitorCount"/>
+      <input type="hidden" data-var="averageAdmission" data-inputs="oldAdmission,fractionOfVisitorsEligibleForNewAdmission,newAdmission" data-fn="(oldAdmission,fractionOfVisitorsEligibleForNewAdmission,newAdmission) => oldAdmission + fractionOfVisitorsEligibleForNewAdmission * (newAdmission - oldAdmission)"/>
+      <input type="hidden" data-var="fractionOfVisitorsEligibleForNewAdmission" data-inputs="newAdmissionAppliesToEveryone,percentInStateVistors,isTaxPerVehicle,percentVehicleOwners" data-fn="(newAdmissionAppliesToEveryone,percentInStateVistors,isTaxPerVehicle,percentVehicleOwners) => newAdmissionAppliesToEveryone ? 1 :
+      (percentInStateVistors/100 * (isTaxPerVehicle ? (percentVehicleOwners/100) : 1))"/>
+      <input type="hidden" data-var="newVisitorCount" data-inputs="oldVisitorCount,averageAdmission,oldAdmission" data-fn="(oldVisitorCount,averageAdmission,oldAdmission) => oldVisitorCount * Math.max(0.2, 1 + 0.5*Math.atan(1 - averageAdmission/oldAdmission))"/>
+      <input type="hidden" data-var="budget" data-inputs="oldBudget,deltaBudget" data-fn="(oldBudget,deltaBudget) => oldBudget + deltaBudget"/>
 
       <p>California has <var data-var="parkCount">278</var> state parks, including state beaches and historic parks. 
-          The current $<var data-fn="(x) => Math.floor(x / 1000000)" data-inputs="oldBudget"></var> million budget is insufficient to maintain these parks, 
+          The current $<var data-inputs="oldBudget" data-fn="(x) => Math.floor(x / 1000000)"></var> million budget is insufficient to maintain these parks, 
           and <var data-var="oldClosedParkCount">150</var> parks will be shut down at least part-time.
           Most parks charge $<var data-var="oldAdmission">12</var> per vehicle for admission.</p>
 
@@ -94,13 +93,13 @@
           </select>.
       </p>
       
-      <p>This would <var data-fn="(deltaBudget) => deltaBudget > 0 ? 'collect an extra' : 'lose'" data-inputs="deltaBudget"></var>
-          $<var data-fn="(x) => Math.abs(Math.floor(x / 1000000))" data-inputs="deltaBudget"></var> million
-          ($<var data-fn="(x) => Math.floor(x / 1000000)" data-inputs="taxCollected"></var> million from the tax,
-          <var data-fn="(x) => x > 0 ? 'plus' : 'minus'" data-inputs="deltaRevenue"></var>
-          $<var data-fn="(x) => Math.abs(Math.floor(x / 1000000))" data-inputs="deltaRevenue"></var> million
-          <var data-fn="(x) => x > 0 ? 'additional' : 'lost'" data-inputs="deltaRevenue"></var> revenue from admission)
-          for a total state park budget of $<var data-fn="(x) => Math.floor(x / 1000000)" data-inputs="budget"></var> million.
+      <p>This would <var data-inputs="deltaBudget" data-fn="(deltaBudget) => deltaBudget > 0 ? 'collect an extra' : 'lose'"></var>
+          $<var data-inputs="deltaBudget" data-fn="(x) => Math.abs(Math.floor(x / 1000000))"></var> million
+          ($<var data-inputs="taxCollected" data-fn="(x) => Math.floor(x / 1000000)"></var> million from the tax,
+          <var data-inputs="deltaRevenue" data-fn="(x) => x > 0 ? 'plus' : 'minus'"></var>
+          $<var data-inputs="deltaRevenue" data-fn="(x) => Math.abs(Math.floor(x / 1000000))"></var> million
+          <var data-inputs="deltaRevenue" data-fn="(x) => x > 0 ? 'additional' : 'lost'"></var> revenue from admission)
+          for a total state park budget of $<var data-inputs="budget" data-fn="(x) => Math.floor(x / 1000000)"></var> million.
       
         <span data-inputs="budget,oldClosedParkCount,oldBudget" data-fn="(budget,oldClosedParkCount,oldBudget) => {
           
@@ -131,9 +130,9 @@
       </p>
       
       <p>Park attendance would
-          <var data-fn="(deltaVisitorCount) => deltaVisitorCount > 0 ? 'rise' : 'fall'" data-inputs="deltaVisitorCount"></var> by
-          <var data-fn="(deltaVisitorCount,oldVisitorCount) => Math.round(100 * Math.abs(deltaVisitorCount / oldVisitorCount))" data-inputs="deltaVisitorCount,oldVisitorCount"></var>%, to
-          <var data-fn="(x) => Math.round(x / 1000000)" data-inputs="newVisitorCount"></var> million visits each year.</p>
+          <var data-inputs="deltaVisitorCount" data-fn="(deltaVisitorCount) => deltaVisitorCount > 0 ? 'rise' : 'fall'"></var> by
+          <var data-inputs="deltaVisitorCount,oldVisitorCount" data-fn="(deltaVisitorCount,oldVisitorCount) => Math.round(100 * Math.abs(deltaVisitorCount / oldVisitorCount))"></var>%, to
+          <var data-inputs="newVisitorCount" data-fn="(x) => Math.round(x / 1000000)"></var> million visits each year.</p>
     </div>
 
     <script src="./src/tangle.js"></script>
@@ -141,9 +140,11 @@
       const t = new Tangle()
       t.init()
       t.eval()
+      /*
       for (const v of t.variables.values()) {
         console.log(`${v.name} = ${v.value}`)
       }
+      */
     </script>
   </body>
 </html>
